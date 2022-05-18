@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5434:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+  rabbitmq:
+    image: rabbitmq:3.10.1-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - 15671:15671
+      - 15672:15672
+      - 5671:5671
+      - 5672:5672
+      - 15691:15691
+      - 15692:15692
+      - 25672:25672
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  db:
